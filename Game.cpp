@@ -5,6 +5,8 @@
 #include <vector>
 #include <opencv2/opencv.hpp>
 
+#include <glm/gtx/quaternion.hpp>
+
 
 int Game::run(synced_deque<bool>& queue, bool red_tracker_on) {
     std::cout << "Game started!\n";

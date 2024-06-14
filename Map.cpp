@@ -3,6 +3,8 @@
 #include <opencv2/imgcodecs.hpp>
 #include <iostream>
 #include <opencv2/highgui.hpp>
+#include <opencv2/opencv.hpp>
+
 Map::Map(std::string map_path) :map_path(map_path) {}
 
 bool Map::load() {

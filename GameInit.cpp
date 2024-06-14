@@ -5,6 +5,10 @@
 #include <vector>
 #include <opencv2/opencv.hpp>
 
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
+
 #include "Texture.h"
 #include "Map.h"
 
@@ -190,7 +194,7 @@ void Game::init_glfw(void) {
 
 	// try to open OpenGL 4.3 - TODO: verze 4.3 na Macu nefunguje, "nejnovější" je 4.1
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	// only on Mac
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);

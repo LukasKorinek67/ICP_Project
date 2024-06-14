@@ -3,6 +3,7 @@
 #include <vector>
 #include <utility>
 #include <tuple>
+
 class Map {
 private:
     std::string map_path;

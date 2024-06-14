@@ -1,4 +1,4 @@
-#version 410 core
+#version 430 core
 // Světla https://learnopengl.com/Lighting/Multiple-lights
 
 // Input
