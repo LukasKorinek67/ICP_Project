@@ -17,8 +17,8 @@ public:
 private:
     cv::VideoCapture capture;
     synced_deque<bool> queue;
-    //bool red_tracker_on = true;
-    bool red_tracker_on = false;
+    bool red_tracker_on = true;
+    //bool red_tracker_on = false;
     bool tracking_red = false;
     void camera_thread_code(void);
     Game game;
