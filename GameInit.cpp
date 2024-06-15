@@ -126,11 +126,11 @@ void Game::init_assets() {
 
 	// černá formule - složitější model, náročnější zobrazení
 	GLuint texture_formula = textureInit((cp / "textures" / "formula_black.png").u8string(), false);
-	scene["formula"] = Mesh((cp / "models" / "f2.obj").u8string(), *sh, texture_formula);
+	scene["formula"] = Mesh((cp / "models" / "formula_new.obj").u8string(), *sh, texture_formula);
 
 	// červená formule - jednoduchý model
 	//GLuint texture_formula = textureInit((cp / "textures" / "formula_red.jpg").u8string(), false);
-	//scene["formula"] = Mesh((cp / "models" / "F1.obj").u8string(), *sh, texture_formula);
+	//scene["formula"] = Mesh((cp / "models" / "formula_old.obj").u8string(), *sh, texture_formula);
 
 	scene["formula"].width = 2.0f;
 	scene["formula"].height = 1.0f;
