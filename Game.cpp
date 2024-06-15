@@ -17,7 +17,7 @@ int Game::run(synced_deque<bool>& queue, bool red_tracker_on) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     	handle_player_movement();
-    	update_dynamic_model_matrices();
+    	update_dynamic_models();
     	set_lights();
     	draw_all_models();
     	handle_semafor_change(queue, red_tracker_on);
@@ -54,9 +54,8 @@ glm::vec3 Game::calculate_formula_collisions(glm::vec3 position, glm::vec3 offse
 
 bool Game::check_collision_with_formula(glm::vec3 position, glm::vec3 offset, Mesh object) { // AABB - AABB collision
 	//std::cout << "position x: " << position.x << ", position y: " << position.y << ", position z: " << position.z << "\n";
-	position = get_formula_position();
+	position = get_formula_position_coordinates();
 	//position.y = 1.5f;
-	//std::cout << "position x: " << position.x << ", position y: " << position.y << ", position z: " << position.z << "\n";
 
 	bool collisionX = position.x + 1.1f + offset.x >= object.position.x &&
 		object.position.x + object.width >= position.x + offset.x;
@@ -92,74 +91,32 @@ bool Game::check_collision(glm::vec3 position, glm::vec3 offset, Mesh object) { 
 	return collisionX && collisionY && collisionZ;
 }
 
-// Aktualizuje transformační matice (modelové matice) dynamických objektů ve scéně
-void Game::update_dynamic_model_matrices() {
+void Game::update_dynamic_models() {
+	// formula
 	if(driveMode) {
-		glm::vec3 formula_position = get_formula_position();
-
-		// červená formule
-		// Vytvoření modelové matice aplikováním translace na pozici f1
-		/*glm::mat4 model = glm::translate(glm::identity<glm::mat4>(), formula_position);
-
-		// Vypočítání úhlu otáčení na základě směru kamery (Yaw)
-		float angle = glm::atan(camera.Front.x, camera.Front.z);
-		model = glm::rotate(model, angle, glm::vec3(0.0f, 1.0f, 0.0f));
-
-		// Aplikace škálování
-		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 0.7f));
-
-		// Nastavení modelové matice pro objekt f1 ve scéně
-		scene["formula"].setModelMatrix(model);
-		scene["formula"].position = formula_position;*/
-
-		// černá formule
-		/*glm::mat4 model = glm::translate(glm::identity<glm::mat4>(), formula_position);
-		model = glm::rotate(model, glm::radians(270.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-		//model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-		float angle = glm::atan(camera.Front.x, camera.Front.z);
-		model = glm::rotate(model, angle, glm::vec3(0.0f, 0.0f, 1.0f));
-		scene["formula"].setModelMatrix(model);
-		scene["formula"].position = formula_position;*/
-
-		// easy f1
-		// Vytvoření modelové matice aplikováním translace na pozici f1
-		glm::mat4 model = glm::translate(glm::identity<glm::mat4>(), formula_position);
-
-		// Vypočítání úhlu otáčení na základě směru kamery (Yaw)
-		float angle = glm::atan(camera.Front.x, camera.Front.z);
-		model = glm::rotate(model, angle, glm::vec3(0.0f, 1.0f, 0.0f));
-
-		// Aplikace škálování
-		model = glm::scale(model, glm::vec3(0.25f, 0.25f, 0.25f));
-
-		// Nastavení modelové matice pro objekt f1 ve scéně
-		scene["formula"].setModelMatrix(model);
-		scene["formula"].position = formula_position;
+		set_formula_model_position();
 	}
 
+	// wheel
 	wheelPosition.z = 50.f + 48.0f * sin(glfwGetTime() * 0.3f);
 	glm::mat4 wheel_model = glm::scale(glm::rotate(glm::translate(glm::identity<glm::mat4>(), wheelPosition), glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f)), glm::vec3(0.015,0.015, 0.015));
 	wheel_model = glm::rotate(wheel_model, wheelPosition.z, glm::vec3(0.0f, 0.0f, 1.0f));
 	scene["wheel"].setModelMatrix(wheel_model);
 	scene["wheel"].position = wheelPosition;
 
-	// Update the drone model matrix (simple example with constant movement)
-	// DRONE 1
-
+	// drone 1
 	// Aktualizace pozice dronu + zaøídit rotaci objektu jako takového a aby to svìtlo skokovì neskákalo
 	float droneSpeed = 0.05f; // Rychlost pohybu dronu
-	glm::vec3 direction = droneTargetPositions[currentTrianglePoint] - dronePosition;
-
+	glm::vec3 direction = drone1TargetPositions[currentTrianglePoint] - drone1Position;
 	if (glm::length(direction) < droneSpeed) {
 		// Pøepnutí na další bod trojúhelníku
 		currentTrianglePoint = (currentTrianglePoint + 1) % 3;
-		direction = droneTargetPositions[currentTrianglePoint] - dronePosition;
+		direction = drone1TargetPositions[currentTrianglePoint] - drone1Position;
 	}
+	drone1Position += glm::normalize(direction) * droneSpeed;
+	scene["drone1"].setModelMatrix(glm::translate(glm::identity<glm::mat4>(), drone1Position));
 
-	dronePosition += glm::normalize(direction) * droneSpeed;
-	scene["drone1"].setModelMatrix(glm::translate(glm::identity<glm::mat4>(), dronePosition));
-
-	//DRONE 2
+	// drone 2
 	glm::vec3 drone_position2 = scene["drone2"].position;
 	drone_position2.y = 8.0f + 2.0f * sin(glfwGetTime()); // Example of up and down movement
 	scene["drone2"].position = drone_position2;
@@ -167,6 +124,7 @@ void Game::update_dynamic_model_matrices() {
 	//drone_model = glm::scale(drone_model, glm::vec3(1.0f, 1.0f, 1.0f)); // Scaling as necessary
 	scene["drone2"].setModelMatrix(drone_model2);
 
+	// drone 3
 	glm::vec3 drone_position3 = scene["drone3"].position;
 	//drone_position3.y = 8.0f + 2.0f * sin(glfwGetTime()); // Example of up and down movement
 	drone_position3.x = 50.f + 25.0f * sin(glfwGetTime() * 0.3f); // Example of movement along Z axis
@@ -176,32 +134,27 @@ void Game::update_dynamic_model_matrices() {
 	scene["drone3"].setModelMatrix(drone_model3);
 }
 
-glm::vec3 Game::get_formula_position() {
+void Game::set_formula_model_position() {
+	glm::vec3 formula_position = get_formula_position_coordinates();
 
-	// červená formule
-	/*int yaw;
-	if(camera.Yaw > 0) {
-		int negativeYaw = camera.Yaw;
-		while (negativeYaw > 0) {
-			negativeYaw -=360;
-		}
-		yaw = abs(negativeYaw % 360);
-	} else {
-		yaw = abs((int)camera.Yaw % 360);
-	}
-	float yawRadians = glm::radians(static_cast<float>(yaw));
-	//std::cout << "Yaw: " << yaw << ", yawRadians: " << yawRadians << ", cos(yawRadians): " << glm::cos(yawRadians) << ", sin(yawRadians): " << glm::sin(yawRadians) << "\n";
-	glm::vec3 circleOffset = glm::vec3(0.7f * glm::sin(yawRadians), 0.0f, 0.7f * glm::cos(yawRadians));
-	glm::vec3 f1_position = camera.Position + camera.Front * 3.5f + circleOffset;
-	f1_position.y = 0.0f;
-	return f1_position;*/
+	// černá formule - složitější model, náročnější zobrazení
+	glm::mat4 modelMatrix = glm::translate(glm::identity<glm::mat4>(), formula_position);
+	modelMatrix = glm::rotate(modelMatrix, glm::radians(270.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+	float angle = glm::atan(camera.Front.x, camera.Front.z);
+	modelMatrix = glm::rotate(modelMatrix, angle, glm::vec3(0.0f, 0.0f, 1.0f));
+	scene["formula"].setModelMatrix(modelMatrix);
+	scene["formula"].position = formula_position;
 
-	// černá formule
-	//glm::vec3 f1_position = camera.Position + camera.Front * 4.5f;
-	//f1_position.y = 0.0f;
-	//return f1_position;
+	// červená formule - jednoduchý model
+	/*glm::mat4 modelMatrix = glm::translate(glm::identity<glm::mat4>(), formula_position);
+	float angle = glm::atan(camera.Front.x, camera.Front.z);	// vypočítání úhlu otáčení na základě směru kamery
+	modelMatrix = glm::rotate(modelMatrix, angle, glm::vec3(0.0f, 1.0f, 0.0f));
+	modelMatrix = glm::scale(modelMatrix, glm::vec3(0.25f, 0.25f, 0.25f));
+	scene["formula"].setModelMatrix(modelMatrix);
+	scene["formula"].position = formula_position;*/
+}
 
-	// easy f1
+glm::vec3 Game::get_formula_position_coordinates() {
 	glm::vec3 f1_position = camera.Position + camera.Front * 4.5f;
 	f1_position.y = 0.0f;
 	return f1_position;

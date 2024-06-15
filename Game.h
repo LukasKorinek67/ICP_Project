@@ -76,11 +76,12 @@ private:
     glm::vec3 calculate_formula_collisions(glm::vec3 position, glm::vec3 offset, std::unordered_map<std::string, Mesh> &scene);
     bool check_collision(glm::vec3 position, glm::vec3 offset, Mesh object);
     bool check_collision_with_formula(glm::vec3 position, glm::vec3 offset, Mesh object);
-    void update_dynamic_model_matrices();
+    void update_dynamic_models();
     void draw_all_models();
     void set_lights();
     void handle_semafor_change(synced_deque<bool>& queue, bool red_tracker_on);
-    glm::vec3 get_formula_position();
+    glm::vec3 get_formula_position_coordinates();
+    void set_formula_model_position();
 
     void update_projection_matrix(void);
 
@@ -94,8 +95,8 @@ private:
 
     // Drones
     int currentTrianglePoint;
-    glm::vec3 dronePosition;
-    glm::vec3 droneTargetPositions[3];
+    glm::vec3 drone1Position;
+    glm::vec3 drone1TargetPositions[3];
     float droneSpeed;
 
     // Wheel
