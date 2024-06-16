@@ -1,6 +1,7 @@
 #include <opencv2/opencv.hpp>
 #include "Texture.h"
 
+// Naètení textury ze souboru
 GLuint textureInit(cv::String filepath, const bool mirror) {
 	cv::Mat image = cv::imread(filepath, cv::IMREAD_UNCHANGED);
 	if (image.empty())
@@ -27,16 +28,16 @@ GLuint tex_gen(cv::Mat& image) {
 	}
 
 	// if channels() = RGBA, we have Alpha channel, aka semitransparent texture
-    bool transparent = (image.channels() == 4);
+	bool transparent = (image.channels() == 4);
 
 	// generate texture name
-    GLuint texture;
+	GLuint texture;
 	glGenTextures(1, &texture);
 
-    // bind texture as active
+	// bind texture as active
 	glBindTexture(GL_TEXTURE_2D, texture);
 
-    // allow unaligned transfers
+	// allow unaligned transfers
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
 	//
@@ -87,12 +88,12 @@ GLuint tex_gen(cv::Mat& image) {
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, image.cols, image.rows, 0, GL_BGR, GL_UNSIGNED_BYTE, image.data);
 	}
 
-    //
-    // Set texture properties
-    //
+	//
+	// Set texture properties
+	//
 
-    // TILED texture
-   	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	// TILED texture
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
 

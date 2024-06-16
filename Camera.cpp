@@ -9,60 +9,64 @@ glm::mat4 Camera::GetViewMatrix() {
     return glm::lookAt(this->Position, this->Position + this->Front, this->Up);
 }
 
-glm::vec3 Camera::ProcessMovement(std::unordered_set<int> keys,GLfloat deltaTime, bool driveMode) {
+glm::vec3 Camera::ProcessMovement(std::unordered_set<int> keys, GLfloat deltaTime, bool driveMode) {
     auto window = glfwGetCurrentContext();
     glm::vec3 movement = { 0.0f, 0.0f, 0.0f };
     for (const int& key : keys) {
         switch (key) {
-            case GLFW_KEY_UP:
-            case GLFW_KEY_W:
+        case GLFW_KEY_UP:
+        case GLFW_KEY_W:
             movement += ProcessInput(Camera::direction::FORWARD, deltaTime);
             break;
 
-            case GLFW_KEY_DOWN:
-            case GLFW_KEY_S:
-                movement += ProcessInput(Camera::direction::BACKWARD, deltaTime);
+        case GLFW_KEY_DOWN:
+        case GLFW_KEY_S:
+            movement += ProcessInput(Camera::direction::BACKWARD, deltaTime);
             break;
 
-            case GLFW_KEY_LEFT:
-            case GLFW_KEY_A:
-                if(driveMode && isCarInMovement(keys)) {
-                    if(isCarMovingForward(keys)) {
-                        processCameraRollMovement(-turning_power, 0.0f, GL_TRUE);
-                    } else {
-                        processCameraRollMovement(turning_power, 0.0f, GL_TRUE);
-                    }
-                } else if(!driveMode) {
-                    movement += ProcessInput(Camera::direction::LEFT, deltaTime);
+        case GLFW_KEY_LEFT:
+        case GLFW_KEY_A:
+            if (driveMode && isCarInMovement(keys)) {
+                if (isCarMovingForward(keys)) {
+                    processCameraRollMovement(-turning_power, 0.0f, GL_TRUE);
                 }
-                break;
-
-            case GLFW_KEY_RIGHT:
-            case GLFW_KEY_D:
-                if(driveMode && isCarInMovement(keys)) {
-                    if(isCarMovingForward(keys)) {
-                        processCameraRollMovement(turning_power, 0.0f, GL_TRUE);
-                    } else {
-                        processCameraRollMovement(-turning_power, 0.0f, GL_TRUE);
-                    }
-                } else if(!driveMode) {
-                    movement += ProcessInput(Camera::direction::RIGHT, deltaTime);
+                else {
+                    processCameraRollMovement(turning_power, 0.0f, GL_TRUE);
                 }
-                break;
-
-            case GLFW_KEY_SPACE:
-                if(isCarMovingForward(keys)) {
-                    movement += ProcessInput(Camera::direction::FORWARD, 2*deltaTime);
-                }
-                break;
-            case GLFW_KEY_P:
-                movement += ProcessInput(Camera::direction::UP, deltaTime);
+            }
+            else if (!driveMode) {
+                movement += ProcessInput(Camera::direction::LEFT, deltaTime);
+            }
             break;
-            case GLFW_KEY_L:
-                movement += ProcessInput(Camera::direction::DOWN, deltaTime);
-                break;
-            default:
-                break;
+
+        case GLFW_KEY_RIGHT:
+        case GLFW_KEY_D:
+            if (driveMode && isCarInMovement(keys)) {
+                if (isCarMovingForward(keys)) {
+                    processCameraRollMovement(turning_power, 0.0f, GL_TRUE);
+                }
+                else {
+                    processCameraRollMovement(-turning_power, 0.0f, GL_TRUE);
+                }
+            }
+            else if (!driveMode) {
+                movement += ProcessInput(Camera::direction::RIGHT, deltaTime);
+            }
+            break;
+
+        case GLFW_KEY_SPACE:
+            if (isCarMovingForward(keys)) {
+                movement += ProcessInput(Camera::direction::FORWARD, 2 * deltaTime);
+            }
+            break;
+        case GLFW_KEY_P:
+            movement += ProcessInput(Camera::direction::UP, deltaTime);
+            break;
+        case GLFW_KEY_L:
+            movement += ProcessInput(Camera::direction::DOWN, deltaTime);
+            break;
+        default:
+            break;
         }
     }
     return movement;
@@ -70,7 +74,7 @@ glm::vec3 Camera::ProcessMovement(std::unordered_set<int> keys,GLfloat deltaTime
 
 bool Camera::isCarInMovement(std::unordered_set<int> keys) {
     for (const int& key : keys) {
-        if(key == GLFW_KEY_W || key == GLFW_KEY_S || key == GLFW_KEY_UP || key == GLFW_KEY_DOWN) {
+        if (key == GLFW_KEY_W || key == GLFW_KEY_S || key == GLFW_KEY_UP || key == GLFW_KEY_DOWN) {
             return true;
         }
     }
@@ -79,7 +83,7 @@ bool Camera::isCarInMovement(std::unordered_set<int> keys) {
 
 bool Camera::isCarMovingForward(std::unordered_set<int> keys) {
     for (const int& key : keys) {
-        if(key == GLFW_KEY_W || key == GLFW_KEY_UP) {
+        if (key == GLFW_KEY_W || key == GLFW_KEY_UP) {
             return true;
         }
     }
@@ -110,23 +114,23 @@ glm::vec3 Camera::ProcessInput(Camera::direction direction, GLfloat deltaTime) {
         dir = -this->Right * velocity;
         dir.y = 0;
         return dir;
-            //return -this->Right * velocity;
+        //return -this->Right * velocity;
     case direction::RIGHT:
         dir = this->Right * velocity;
         dir.y = 0;
         return dir;
-            //return this->Right * velocity;
+        //return this->Right * velocity;
     case direction::UP:
-            return this->Up * velocity;
+        return this->Up * velocity;
     case direction::DOWN:
-            return -this->Up * velocity;
+        return -this->Up * velocity;
     }
 
     return glm::vec3(0.0f);
 }
 
 void Camera::ProcessMouseMovement(GLfloat xoffset, GLfloat yoffset, GLboolean constraintPitch, bool driveMode) {
-    if(!driveMode) {
+    if (!driveMode) {
         processCameraRollMovement(xoffset, yoffset, constraintPitch, driveMode);
     }
 }
@@ -145,7 +149,7 @@ void Camera::processCameraRollMovement(GLfloat xoffset, GLfloat yoffset, GLboole
             this->Pitch = -89.0f;
     }
 
-    if(driveMode) {
+    if (driveMode) {
         this->Pitch = -10.0f;
     }
     this->updateCameraVectors();

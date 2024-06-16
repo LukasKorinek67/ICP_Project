@@ -73,12 +73,17 @@ cv::Point2f RedColourTracker::find_center_normalized_hsv(cv::Mat& frame) {
     //std::cout << mask << "\n";
 
     cv::Mat mask1, mask2;
-    // RED - prvnÃ­ rozsah
-    cv::inRange(hsv, cv::Scalar(0, 200, 200), cv::Scalar(10, 255, 255), mask1);
-    // RED - druhÃ½ rozsah
-    cv::inRange(hsv, cv::Scalar(170, 200, 200), cv::Scalar(180, 255, 255), mask2);
+    // RED - první rozsah
+    //cv::inRange(hsv, cv::Scalar(0, 200, 200), cv::Scalar(10, 255, 255), mask1);
+    //// RED - druhý rozsah
+    //cv::inRange(hsv, cv::Scalar(170, 200, 200), cv::Scalar(180, 255, 255), mask2);
 
-    // SpojenÃ­ masek
+    // RED - první rozsah
+    cv::inRange(hsv, cv::Scalar(0, 180, 180), cv::Scalar(15, 255, 255), mask1);
+    // RED - druhý rozsah
+    cv::inRange(hsv, cv::Scalar(165, 150, 150), cv::Scalar(180, 255, 255), mask2);
+
+    // Spojení masek
     mask = mask1 | mask2;
 
     cv::Point2f center;
@@ -86,9 +91,10 @@ cv::Point2f RedColourTracker::find_center_normalized_hsv(cv::Mat& frame) {
     center.x = m.m10 / m.m00;
     center.y = m.m01 / m.m00;
 
-    if(m.m00 == 0) {
+    if (m.m00 == 0) {
         tracking_red = false;
-    } else {
+    }
+    else {
         tracking_red = true;
     }
 

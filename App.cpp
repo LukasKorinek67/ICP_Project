@@ -8,25 +8,26 @@
 
 
 App::App() {
-    // default constructor
-    // nothing to do here (so far...)
-    //std::cout << "Constructed...\n";
+	// default constructor
+	// nothing to do here (so far...)
+	//std::cout << "Constructed...\n";
 }
 
 bool App::init() {
 	try {
-		if(red_tracker_on) {
+		if (red_tracker_on) {
 			// TODO - toto pro Windows
-			//capture = cv::VideoCapture(cv::CAP_DSHOW);
+			capture = cv::VideoCapture(cv::CAP_DSHOW);
 			// TODO - toto pro macOS (AVFoundation)
 			//capture = cv::VideoCapture(0, cv::CAP_AVFOUNDATION);
-			capture.open(0);
+			//capture.open(0);
 
 			if (!capture.isOpened()) {
 				//std::cerr << "no camera source? Fallback to video..." << std::endl;
 				std::cout << "no camera source?" << std::endl;
 				return false;
-			} else {
+			}
+			else {
 				std::cout << "Source: " <<
 					": width=" << capture.get(cv::CAP_PROP_FRAME_WIDTH) <<
 					", height=" << capture.get(cv::CAP_PROP_FRAME_HEIGHT) << '\n';
@@ -60,7 +61,7 @@ int App::run(void) {
 void App::camera_thread_code(void) {
 	cv::Mat frame;
 	try {
-		if(red_tracker_on) {
+		if (red_tracker_on) {
 			while (!end) {
 				capture >> frame;
 
@@ -68,12 +69,17 @@ void App::camera_thread_code(void) {
 					//throw std::exception("Empty file? Wrong path?");
 					throw std::runtime_error("Empty file? Wrong path?");
 				}
+				// Zobrazit snímaný obraz
+				//cv::imshow("Camera Frame", frame);
+				//std::cout << "HERE !\n";
 				bool red = red_colour_tracker.check(frame);
-				if(!tracking_red && red) {
+				//std::cout << "red: " << red << "\n";
+				if (!tracking_red && red) {
 					queue.push_back(red);
 					tracking_red = true;
 					std::cout << "Semafor changed - red tracked!\n";
-				} else if(tracking_red && !red) {
+				}
+				else if (tracking_red && !red) {
 					queue.push_back(red);
 					tracking_red = false;
 					std::cout << "Semafor changed - red is not visible\n";

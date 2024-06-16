@@ -44,7 +44,7 @@ private:
     Camera camera = Camera(glm::vec3(0.0, 0.0, 10.0));
     Camera last_drive_camera = Camera(glm::vec3(0.0, 0.0, 10.0));
     float fov = 60.0f;
-    ShaderProgram *shader;
+    ShaderProgram* shader;
     glm::mat4 projection_matrix;
     std::unordered_map<std::string, Mesh> scene;
 
@@ -70,12 +70,13 @@ private:
     static void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
     static void GLAPIENTRY MessageCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam);
 
-    double last_frame_time=0;
+    double last_frame_time = 0;
     void handle_player_movement();
-    glm::vec3 calculate_collisions(glm::vec3 position, glm::vec3 offset, std::unordered_map<std::string, Mesh> &scene);
-    glm::vec3 calculate_formula_collisions(glm::vec3 position, glm::vec3 offset, std::unordered_map<std::string, Mesh> &scene);
-    bool check_collision(glm::vec3 position, glm::vec3 offset, Mesh object);
-    bool check_collision_with_formula(glm::vec3 position, glm::vec3 offset, Mesh object);
+    glm::vec3 calculate_collisions(glm::vec3 position, glm::vec3 offset, std::unordered_map<std::string, Mesh>& scene);
+    glm::vec3 calculate_formula_collisions(glm::vec3 position, glm::vec3 offset, std::unordered_map<std::string, Mesh>& scene);
+    bool check_collision(glm::vec3 position, glm::vec3 offset, Mesh object, bool middleInZeros);
+    bool check_collision_with_formula(glm::vec3 position, glm::vec3 offset, Mesh object, bool middleInZeros);
+    bool isPointInRectangle(const glm::vec2& point, const glm::vec2& a, const glm::vec2& b, const glm::vec2& c, const glm::vec2& d);
     void update_dynamic_models();
     void draw_all_models();
     void set_lights();
@@ -85,11 +86,11 @@ private:
 
     void update_projection_matrix(void);
 
-    glm::vec3 pointLightPositions[2] = {
+    glm::vec3 pointLightPositions[3] = {
         glm::vec3(50.0f,  8.0f,  50.0f),
         glm::vec3(25.0f, 3.0f, 25.0f),
+        glm::vec3(87.6f, 2.7f, 41.0f),  //semafor
     };
-    glm::vec3 semaforLightPosition = glm::vec3(87.6f,  2.7f,  41.0f);
     bool red_light_on_semafor = false;
 
 
@@ -101,7 +102,6 @@ private:
 
     // Wheel
     glm::vec3 wheelPosition;
-
 };
 
 #endif //GAME_H

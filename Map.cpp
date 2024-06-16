@@ -23,17 +23,16 @@ bool Map::load() {
             if (blue == 255 && green == 255 && red == 255) {
                 continue;
             }
-            // vynechat ohraniÄenÃ­ trati
+            // vynechat ohranièení trati
             if (blue == 0 && green == 0 && red == 0) {
                 continue;
             }
-            // vynechat cÃ­lovou ÄÃ¡ru
+            // vynechat cílovou èáru
             if (blue == 0 && green == 255 && red == 0) {
                 continue;
             }
             if (blue == 0 && green == 0 && red == 255) {
-                std::cout << "Spawn position at " << row << " " << col << "\n";
-                start_position = {row,col};
+                start_position = { row,col };
             }
             else {
                 positions.push_back(std::make_pair(row, col));

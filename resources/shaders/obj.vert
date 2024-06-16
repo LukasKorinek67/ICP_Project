@@ -17,6 +17,6 @@ void main()
     gl_Position = uPm * uVm * uMm * vec4(aPos, 1.0f);
     FragPos = vec3(uMm * vec4(aPos, 1.0));
     TexCoords = aTexcoord;
-
+    
     Normal = uMm_normal * aNormal;
 }

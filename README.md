@@ -1,49 +1,41 @@
-# ICP - semestrální práce
-*Lukáš Kořínek, Helena Doanová*
+<h1>Shooter game</h1>
+<h2>Download game</h2>
+https://drive.google.com/file/d/1SN9b1hmiWp5he2KLoMZ3DKgv5N7aDZOC/view?usp=sharing 
 
----
+stačí spustit ICP.exe a mít dostupnou web kameru
+<h2>Features</h2>
+pohyb v 3d prostoru a otáčemní se myší
 
+kolize s objekty  
+texturované objekty  
+shadery  
+světla - (spot light, direction light, point light a ambient)  
+hit-scan střelba ze zbraně (lze střílet postavičky lidí a ptáky ve vzduchu)  
+denní cyklus kdy se mění směr direction lightu a jeho barva
+načítání rozmístění objektů a postaviček z obrázku
 
+zapínatelná svítilna s možností ovládat směr podle webkamery (**reaguje na zelenou barvu**)
 
+průhledné objekty, v mém případě malí králíci rozmístění po levelu (bez kolizí)
 
-### Instalace/Spuštění
+<h2>Controls</h2>
 
-- ?? exe soubor ?
-- v rámci tohoto git repozitáře jsou zde 2 větve:
+Movement: <kbd>W</kbd> <kbd>S</kbd> <kbd>A</kbd> <kbd>D</kbd> 
 
-    - main - spustitelné na Windows
-    - macOS_CLion - spustitelné na macOS v prostředí CLion
+V-sync[on/off] <kbd >V</kbd> 
 
----
-### Ovládání
-- Pohyb/jízda:
-  - <kbd>W</kbd> <kbd>S</kbd> <kbd>A</kbd> <kbd>D</kbd>
-  - <kbd>⬆</kbd> <kbd>⬇</kbd> <kbd>⬅</kbd> <kbd>➡</kbd>
-- Zrychlení (při pohybu vpřed) - <kbd>SPACE</kbd> 
-- Nahoru - <kbd>P</kbd>
-- Dolu - <kbd>L</kbd>
-- Fullscreen ON/OFF - <kbd>F</kbd>
-- Drive mode ON/OFF - <kbd>M</kbd>
-- Vsync ON/OFF - <kbd>V</kbd>
-- End - <kbd>Esc</kbd>
-- Rozhlížení (mimo drive mode) - pohyb myši
-- Přiblížení/oddálení - scroll myši
+Fov[+/-] <kbd >mouse Scroll</kbd> 
 
----
-### Red colour tracker
+Fly up: <kbd>Space</kbd> down: <kbd>Ctrl</kbd>
 
-- web kamera snimá červené objekty, při nalezení červeného objektu se změní barva semaforu na červenou, pokud není viditelný žádný červený objekt, zůstává defaultně zelená 
+Fire: <kbd>(LMB)</kbd> 
 
----
-### Dokumentace
+Aim: <kbd >(RMB)</kbd>
 
-- Vytvořili jsme jednoduchou aplikaci, kde se dá přepínat mezi jízdou s formulí a volným pohybem
-- Při jízdě je jiné chování kamery - zablokované pohyby myši
-- Celkem 7 modelů - formule, kužely, kolo, drony, semafor, kostka/ohraničení mapy, samotná plocha a ??(transparentní) všude jsou textury
-    - formule, drony a kolo se pohybují
-    - ?? je transparentní
-- Celkem 5 světel (1x DirLight, 3x PointLight, 1x SpotLight)
-- Kolize jak pro formuli, tak pro kameru při volném pohybu
-- Realtime 2D raster proccessing -> Red colour tracker, funkce popsaná výše
+Flashlight[on/off]: <kbd >F</kbd>
 
+Exit Game: <kbd >ESC</kbd>
 
+Window Mode [Window / Full Screen]: <kbd >F11</kbd>
+
+Camera tracker for controling flashlight direction: <kbd >C</kbd>

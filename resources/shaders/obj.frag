@@ -16,13 +16,13 @@ struct DirLight {
     vec3 ambient;
     vec3 diffuse;
     vec3 specular;
-};
+};  
 
 struct Material
 {
     vec3 ambient;
     vec3 diffuse;
-    vec3 specular;
+    vec3 specular; 
     float shininess;
     float transparency;
 };
@@ -56,8 +56,8 @@ struct SpotLight {
     float quadratic;
 };
 
-// Pozice kamery
-uniform vec3 viewPos;
+// Pozice kamery 
+uniform vec3 viewPos; 
 
 // Lights
 uniform DirLight dirLight;
@@ -106,26 +106,26 @@ vec3 CalcDirLight(DirLight light, vec3 norm, vec3 viewDir, vec3 textureColor)
 {
     // diff - diffuse shading
     vec3 lightDir = normalize(-light.direction);
-    float diff = max(dot(norm, lightDir), 0.0);
+    float diff = max(dot(norm, lightDir), 0.0); 
 
     // spec - specular shading
     vec3 reflectDir = reflect(-lightDir, norm);
     float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
 
     // Ambientní osvětlení + Difúzní osvětlení + Speculární osvětlení
-    vec3 ambient = light.ambient * textureColor * material.ambient;
+    vec3 ambient = light.ambient * textureColor * material.ambient; 
     vec3 diffuse = light.diffuse * diff * textureColor; //* material.diffuse;
     vec3 specular = light.specular * spec * textureColor; //* material.specular;
 
     return (ambient + diffuse + specular);
-}
+}  
 
 vec3 CalcPointLight(PointLight light, vec3 norm, vec3 fragPos, vec3 viewDir, vec3 textureColor)
 {
     // diff - diffuse shading
     vec3 lightDir = normalize(light.position - fragPos);
     float diff = max(dot(norm, lightDir), 0.0);
-
+    
     // spec - specular shading
     vec3 reflectDir = reflect(-lightDir, norm);
     float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
@@ -133,9 +133,9 @@ vec3 CalcPointLight(PointLight light, vec3 norm, vec3 fragPos, vec3 viewDir, vec
     // Attenuation
     float distance = length(light.position - fragPos);
     float attenuation = 1.0 / (light.constant + light.linear * distance + light.quadratic * (distance * distance));
-
+    
     // Combine results
-    vec3 ambient = light.ambient * textureColor * material.ambient;
+    vec3 ambient = light.ambient * textureColor * material.ambient; 
     vec3 diffuse = light.diffuse * diff * textureColor; //* material.diffuse;
     vec3 specular = light.specular * spec * textureColor; //* material.specular;
 
@@ -166,7 +166,7 @@ vec3 CalcSpotLight(SpotLight light, vec3 norm, vec3 fragPos, vec3 viewDir, vec3 
     float intensity = clamp((theta - light.outerCutOff) / epsilon, 0.0, 1.0);
 
     // Combine results
-    vec3 ambient = light.ambient * textureColor * material.ambient;
+    vec3 ambient = light.ambient * textureColor * material.ambient; 
     vec3 diffuse = light.diffuse * diff * textureColor; //* material.diffuse;
     vec3 specular = light.specular * spec * textureColor; //* material.specular;
 

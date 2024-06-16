@@ -9,9 +9,9 @@
 #include "OBJloader.h"
 
 
-Mesh::Mesh(void): shader(shader) {}
+Mesh::Mesh(void) : shader(shader) {}
 
-Mesh::Mesh(std::string obj_path, ShaderProgram shader,GLuint texture_id,float texture_scale,float height, float width,glm::vec3 position): obj_path(obj_path), shader(shader),texture_id(texture_id), width(width), height(height), position(position){
+Mesh::Mesh(std::string obj_path, ShaderProgram shader, GLuint texture_id, float texture_scale, float height, float width, glm::vec3 position) : obj_path(obj_path), shader(shader), texture_id(texture_id), width(width), height(height), position(position) {
     // MESH class contains its shaders and data
     std::vector<glm::vec3> tmp_vertices;
     std::vector<glm::vec2> tmp_uvs;
@@ -22,7 +22,7 @@ Mesh::Mesh(std::string obj_path, ShaderProgram shader,GLuint texture_id,float te
     loadOBJ(objpath_p, tmp_vertices, tmp_uvs, tmp_normals);
 
     for (size_t i = 0; i < tmp_vertices.size(); ++i) {
-        vertices.emplace_back((vertex{ tmp_vertices.at(i), (tmp_uvs.at(i)*texture_scale), tmp_normals.at(i) }));
+        vertices.emplace_back((vertex{ tmp_vertices.at(i), (tmp_uvs.at(i) * texture_scale), tmp_normals.at(i) }));
     }
     // create VAO = data description
     glGenVertexArrays(1, &VAO);
@@ -58,7 +58,7 @@ glm::mat4 Mesh::getModelMatrix(void) {
 }
 void Mesh::draw(const glm::mat4& M, const glm::mat4& V, const glm::mat4& P, Camera& camera) {}
 
-void Mesh::draw(){
+void Mesh::draw() {
     shader.activate();
     glActiveTexture(GL_TEXTURE0);
     shader.setUniform("tex0", 0);
@@ -67,7 +67,7 @@ void Mesh::draw(){
     //shader.setUniform("material.diffuse", color);
     glBindVertexArray(VAO);
 
-    if (texture_id !=0) {
+    if (texture_id != 0) {
         glBindTexture(GL_TEXTURE_2D, texture_id);
     }
 

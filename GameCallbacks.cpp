@@ -9,17 +9,13 @@
 
 bool vsync = true;
 bool fscreen = false;
-GLfloat r = 0.5f;
-GLfloat g = 0.5f;
-GLfloat b = 0.5f;
-GLfloat a = 0.5f;
 
 // Error callback
 void Game::error_callback(int error, const char* description) {
     std::cerr << "GLFW error: " << description << std::endl;
 }
 
-// Tato funkce se starÃ¡ o to, aby aplikace sprÃ¡vnÄ› reagovala na zmÄ›nu velikosti okna a sprÃ¡vnÃ½ pÅ™epoÄet vÅ¡ech dÅ¯leÅ¾itÃ½ch parametry pro vykreslovÃ¡nÃ­
+// Tato funkce se stará o to, aby aplikace správnì reagovala na zmìnu velikosti okna a správný pøepoèet všech dùležitých parametrù pro vykreslování
 void Game::framebuffer_size_callback(GLFWwindow* window, int width, int height) {
     auto inst = static_cast<Game*>(glfwGetWindowUserPointer(window));
     inst->width = width;
@@ -30,8 +26,8 @@ void Game::framebuffer_size_callback(GLFWwindow* window, int width, int height) 
     std::cout << "window size changed. width: " << width << " height: " << height << "\n";
 }
 
-// NastavenÃ­ callbackÅ¯ pro klÃ¡vesy
-void Game::key_callback(GLFWwindow* window, int key, int scancode, int action, int mods){
+// Nastavení callbackù pro klávesy
+void Game::key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) {
     auto inst = static_cast<Game*>(glfwGetWindowUserPointer(window));
 
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
@@ -56,9 +52,10 @@ void Game::key_callback(GLFWwindow* window, int key, int scancode, int action, i
         return;
     }
     if (key == GLFW_KEY_M && action == GLFW_PRESS) {
-        if(inst->driveMode) {
+        if (inst->driveMode) {
             inst->last_drive_camera = inst->camera;
-        } else {
+        }
+        else {
             inst->camera = inst->last_drive_camera;
         }
         inst->driveMode = !inst->driveMode;
@@ -85,10 +82,8 @@ void Game::mouse_button_callback(GLFWwindow* window, int button, int action, int
 void Game::cursor_position_callback(GLFWwindow* window, double xpos, double ypos) {
     auto inst = static_cast<Game*>(glfwGetWindowUserPointer(window));
     inst->camera.ProcessMouseMovement(xpos - inst->xpos_prev, (ypos - inst->ypos_prev) * -1, GL_TRUE, inst->driveMode);
-    //inst->camera.ProcessMouseMovement(xpos - inst->xpos_prev, (ypos - inst->ypos_prev) * -1);
     inst->xpos_prev = xpos;
     inst->ypos_prev = ypos;
-    //std::cout << "cursor event. xpos: " << xpos << " ypos: " << ypos << "\n";
 }
 void Game::scroll_callback(GLFWwindow* window, double xoffset, double yoffset) {
     auto inst = static_cast<Game*>(glfwGetWindowUserPointer(window));
@@ -99,25 +94,25 @@ void Game::scroll_callback(GLFWwindow* window, double xoffset, double yoffset) {
     std::cout << "scroll event. xoffset: " << xoffset << " yoffset: " << yoffset << "\n";
 }
 
-// Funkce bere komplexnÃ­ informace o OpenGL debug zprÃ¡vÄ› a pÅ™evÃ¡dÃ­ je na lidsky ÄitelnÃ½ formÃ¡t, kterÃ½ je nÃ¡slednÄ› vypsÃ¡n do konzole
-// UmoÅ¾Åˆuje snadno sledovat a diagnostikovat problÃ©my v aplikaci
+// Funkce bere komplexní informace o OpenGL debug zprávì a pøevádí je na lidsky èitelný formát, který je následnì vypsán do konzole
+// Umožòuje snadno sledovat a diagnostikovat problémy v aplikaci
 void GLAPIENTRY Game::MessageCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam) {
     auto const src_str = [source]() {
         switch (source)
         {
-            case GL_DEBUG_SOURCE_API: return "API";
-            case GL_DEBUG_SOURCE_WINDOW_SYSTEM: return "WINDOW SYSTEM";
-            case GL_DEBUG_SOURCE_SHADER_COMPILER: return "SHADER COMPILER";
-            case GL_DEBUG_SOURCE_THIRD_PARTY: return "THIRD PARTY";
-            case GL_DEBUG_SOURCE_APPLICATION: return "APPLICATION";
-            case GL_DEBUG_SOURCE_OTHER: return "OTHER";
-            default: return "Unknown";
+        case GL_DEBUG_SOURCE_API: return "API";
+        case GL_DEBUG_SOURCE_WINDOW_SYSTEM: return "WINDOW SYSTEM";
+        case GL_DEBUG_SOURCE_SHADER_COMPILER: return "SHADER COMPILER";
+        case GL_DEBUG_SOURCE_THIRD_PARTY: return "THIRD PARTY";
+        case GL_DEBUG_SOURCE_APPLICATION: return "APPLICATION";
+        case GL_DEBUG_SOURCE_OTHER: return "OTHER";
+        default: return "Unknown";
         }
-    }();
+        }();
 
-    auto const type_str = [type]() {
-        switch (type)
-        {
+        auto const type_str = [type]() {
+            switch (type)
+            {
             case GL_DEBUG_TYPE_ERROR: return "ERROR";
             case GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR: return "DEPRECATED_BEHAVIOR";
             case GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR: return "UNDEFINED_BEHAVIOR";
@@ -126,23 +121,23 @@ void GLAPIENTRY Game::MessageCallback(GLenum source, GLenum type, GLuint id, GLe
             case GL_DEBUG_TYPE_MARKER: return "MARKER";
             case GL_DEBUG_TYPE_OTHER: return "OTHER";
             default: return "Unknown";
-        }
-    }();
+            }
+            }();
 
-    auto const severity_str = [severity]() {
-        switch (severity) {
-            case GL_DEBUG_SEVERITY_NOTIFICATION: return "NOTIFICATION";
-            case GL_DEBUG_SEVERITY_LOW: return "LOW";
-            case GL_DEBUG_SEVERITY_MEDIUM: return "MEDIUM";
-            case GL_DEBUG_SEVERITY_HIGH: return "HIGH";
-            default: return "Unknown";
-        }
-    }();
+            auto const severity_str = [severity]() {
+                switch (severity) {
+                case GL_DEBUG_SEVERITY_NOTIFICATION: return "NOTIFICATION";
+                case GL_DEBUG_SEVERITY_LOW: return "LOW";
+                case GL_DEBUG_SEVERITY_MEDIUM: return "MEDIUM";
+                case GL_DEBUG_SEVERITY_HIGH: return "HIGH";
+                default: return "Unknown";
+                }
+                }();
 
-    std::cout << "[GL CALLBACK]: " <<
-        "source = " << src_str <<
-        ", type = " << type_str <<
-        ", severity = " << severity_str <<
-        ", ID = '" << id << '\'' <<
-        ", message = '" << message << '\'' << std::endl;
+                std::cout << "[GL CALLBACK]: " <<
+                    "source = " << src_str <<
+                    ", type = " << type_str <<
+                    ", severity = " << severity_str <<
+                    ", ID = '" << id << '\'' <<
+                    ", message = '" << message << '\'' << std::endl;
 }

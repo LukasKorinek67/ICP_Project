@@ -1,3 +1,4 @@
+#pragma once
 #ifndef REDCOLOURTRACKER_H
 #define REDCOLOURTRACKER_H
 
