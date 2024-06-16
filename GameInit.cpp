@@ -106,7 +106,7 @@ void Game::init_assets() {
     		cube.setModelMatrix(modelMatrix);
     		//cube.position = { map.positions[i].first + 0.5f,0.1f,(float) map.positions[i].second + 0.5f};
     		cube.position = border_position;
-    		cube.width = 0.5f;
+    		cube.width = 1.0f;
     		cube.height = 1.0f;
     		scene["cube" + std::to_string(i)] = cube;
     		continue;
@@ -117,41 +117,45 @@ void Game::init_assets() {
     		cone.setModelMatrix(modelMatrix);
     		//cone.position = { map.positions[i].first + 0.5f,0.1f,(float) map.positions[i].second + 0.5f};
     		cone.position = cone_position;
-    		cone.width = 0.3f;
-    		cone.height = 0.5f;
+    		cone.width = 0.5f;
+    		cone.height = 0.8f;
     		scene["cone" + std::to_string(i)] = cone;
     		continue;
     	}
     }
 
 	// černá formule - složitější model, náročnější zobrazení
+	// délka 5,1f, šířka 1,95f, výška 1,2f
 	GLuint texture_formula = textureInit((cp / "textures" / "formula_black.png").u8string(), false);
 	scene["formula"] = Mesh((cp / "models" / "formula_new.obj").u8string(), *sh, texture_formula);
-
-	// červená formule - jednoduchý model
-	//GLuint texture_formula = textureInit((cp / "textures" / "formula_red.jpg").u8string(), false);
-	//scene["formula"] = Mesh((cp / "models" / "formula_old.obj").u8string(), *sh, texture_formula);
-
-	scene["formula"].width = 2.0f;
-	scene["formula"].height = 1.0f;
+	scene["formula"].width = 5.1f;
+	scene["formula"].height = 1.2f;
 	set_formula_model_position();
 
-	// kolo
+	// červená formule - jednoduchý model
+	// délka 4,2f, šířka 1,65f, výška 1,05f
+	/*GLuint texture_formula = textureInit((cp / "textures" / "formula_red.jpg").u8string(), false);
+	scene["formula"] = Mesh((cp / "models" / "formula_old.obj").u8string(), *sh, texture_formula);
+	scene["formula"].width = 4.2f;
+	scene["formula"].height = 1.05f;
+	set_formula_model_position();*/
+
+	// kolo - šířka 0.7f, délka 0.3f
 	GLuint texture_wheel = textureInit((cp / "textures" / "wheel.png").u8string(), false);
 	wheelPosition = glm::vec3(32.0f, 0.6f, 10.0f);
 	scene["wheel"] = Mesh((cp / "models" / "wheel.obj").u8string(), *sh, texture_wheel);
 	scene["wheel"].position = wheelPosition;
-	scene["wheel"].width = 0.5f;
-	scene["wheel"].height = 0.5f;
+	scene["wheel"].width = 0.7f;
+	scene["wheel"].height = 0.9f;
 	scene["wheel"].setModelMatrix(glm::scale(glm::rotate(glm::translate(glm::identity<glm::mat4>(), wheelPosition), glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f)), glm::vec3(0.015,0.015, 0.015)));
 
 	// semafor
 	GLuint texture_traffic_signal = textureInit((cp / "textures" / "traffic_signal.jpg").u8string(), false);
-	glm::vec3 traffic_signal_position = glm::vec3(87.6f,2.5f,40.0f);
+	glm::vec3 traffic_signal_position = glm::vec3(87.6f,3.5f,40.0f);
 	scene["traffic-signal"] = Mesh((cp / "models" / "traffic_signal.obj").u8string(), *sh, texture_traffic_signal);
 	scene["traffic-signal"].position = traffic_signal_position;
-	scene["traffic-signal"].width = 1.0f;
-	scene["traffic-signal"].height = 1.0f;
+	scene["traffic-signal"].width = 1.5f;
+	scene["traffic-signal"].height = 2.0f;
 	scene["traffic-signal"].setModelMatrix(glm::scale(glm::rotate(glm::rotate(glm::translate(glm::identity<glm::mat4>(), traffic_signal_position), glm::radians(180.0f), glm::vec3(0.0f, 1.0f, -1.0f)), glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f)), glm::vec3(0.2f,0.2f, 0.2f)));
 
 	// drony
@@ -168,18 +172,32 @@ void Game::init_assets() {
 
 	scene["drone1"] = Mesh((cp / "models" / "drone.obj").u8string(), *sh, texture_drone);
 	scene["drone1"].position = drone1Position;
+	scene["drone1"].width = 1.0f;
+	scene["drone1"].height = 1.0f;
 	scene["drone1"].setModelMatrix(glm::translate(glm::identity<glm::mat4>(), drone1Position));
 
 	glm::vec3 drone2_position = glm::vec3(80.0f, 6.0f, 35.0f);
 	scene["drone2"] = Mesh((cp / "models" / "drone.obj").u8string(), *sh, texture_drone);
 	scene["drone2"].position = drone2_position;
+	scene["drone2"].width = 1.0f;
+	scene["drone2"].height = 1.0f;
 	scene["drone2"].setModelMatrix(glm::scale(glm::translate(glm::identity<glm::mat4>(), drone2_position), glm::vec3(1.0f, 1.0f, 1.0f)));
 
 	glm::vec3 drone3_position = glm::vec3(80.0f, 6.0f, 87.0f);
 	scene["drone3"] = Mesh((cp / "models" / "drone.obj").u8string(), *sh, texture_drone);
 	scene["drone3"].position = drone3_position;
+	scene["drone3"].width = 1.0f;
+	scene["drone3"].height = 1.0f;
 	scene["drone3"].setModelMatrix(glm::scale(glm::translate(glm::identity<glm::mat4>(), drone3_position), glm::vec3(1.0f, 1.0f, 1.0f)));
 
+	// Glass - transparence
+	GLuint texture_glass = textureInit((cp / "textures" / "glass.jpg").u8string(), false);
+	glm::vec3 glass_position = glm::vec3(80.0f, 0.2f, 35.0f);
+	scene["glass"] = Mesh((cp / "models" / "glass.obj").u8string(), *sh, texture_glass);
+	scene["glass"].position = glass_position;
+	scene["glass"].width = 0.5f;
+	scene["glass"].height = 0.8f;
+	scene["glass"].setModelMatrix(glm::scale(glm::translate(glm::identity<glm::mat4>(), glass_position), glm::vec3(7.0f, 7.0f, 7.0f)));
 }
 
 void Game::init_glfw(void) {
@@ -196,7 +214,7 @@ void Game::init_glfw(void) {
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
 	// Create a windowed mode window and its OpenGL context
-	window = glfwCreateWindow(1280, 800, "ICP Game - Kořínek & Doanová", NULL, NULL);
+	window = glfwCreateWindow(1280, 800, "ICP Project - Kořínek & Doanová", NULL, NULL);
 
 	if (!window) {
 		glfwTerminate();

@@ -46,4 +46,12 @@
 - Kolize jak pro formuli, tak pro kameru při volném pohybu
 - Realtime 2D raster proccessing -> Red colour tracker, funkce popsaná výše
 
+#### Kolize
+
+- dvě různé implementace:
+  - kolize s kamerou/osobou řešené pomocí AABB
+  - kolize s formulí jsou složitější -> získáváme aktuální 4 krajní body formule a také 4 krajní body objektu, následně probíjá kontrola všech bodů - zda krajní body formule leží/neleží v objektu, s kterým by mohla potenciálně kolidovat a naopak
+- také máme připravené dvě různé možnosti
+  - jedna pro modely, které mají v bodě [0,0,0] střed
+  - druhá pro modely, které mají v bodě [0,0,0] počátek a všechny jejich vrcholy jsou v plusových souřadnicích (v aktuální podobě aplikace je to pouze model *surface*, tedy povrch mapy)
 

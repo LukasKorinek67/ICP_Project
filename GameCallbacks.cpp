@@ -9,17 +9,13 @@
 
 bool vsync = true;
 bool fscreen = false;
-GLfloat r = 0.5f;
-GLfloat g = 0.5f;
-GLfloat b = 0.5f;
-GLfloat a = 0.5f;
 
 // Error callback
 void Game::error_callback(int error, const char* description) {
     std::cerr << "GLFW error: " << description << std::endl;
 }
 
-// Tato funkce se stará o to, aby aplikace správně reagovala na změnu velikosti okna a správný přepočet všech důležitých parametry pro vykreslování
+// Tato funkce se stará o to, aby aplikace správně reagovala na změnu velikosti okna a správný přepočet všech důležitých parametrů pro vykreslování
 void Game::framebuffer_size_callback(GLFWwindow* window, int width, int height) {
     auto inst = static_cast<Game*>(glfwGetWindowUserPointer(window));
     inst->width = width;
@@ -85,10 +81,8 @@ void Game::mouse_button_callback(GLFWwindow* window, int button, int action, int
 void Game::cursor_position_callback(GLFWwindow* window, double xpos, double ypos) {
     auto inst = static_cast<Game*>(glfwGetWindowUserPointer(window));
     inst->camera.ProcessMouseMovement(xpos - inst->xpos_prev, (ypos - inst->ypos_prev) * -1, GL_TRUE, inst->driveMode);
-    //inst->camera.ProcessMouseMovement(xpos - inst->xpos_prev, (ypos - inst->ypos_prev) * -1);
     inst->xpos_prev = xpos;
     inst->ypos_prev = ypos;
-    //std::cout << "cursor event. xpos: " << xpos << " ypos: " << ypos << "\n";
 }
 void Game::scroll_callback(GLFWwindow* window, double xoffset, double yoffset) {
     auto inst = static_cast<Game*>(glfwGetWindowUserPointer(window));

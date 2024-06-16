@@ -30,7 +30,6 @@ bool Map::load() {
                 continue;
             }
             if (blue == 0 && green == 0 && red == 255) {
-                std::cout << "Spawn position at " << row << " " << col << "\n";
                 start_position = {row,col};
             }
             else {
