@@ -54,7 +54,7 @@
     <ClCompile Include="Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="synces_dequeue.cpp">
+    <ClCompile Include="synced_dequeue.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

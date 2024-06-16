@@ -152,7 +152,7 @@
     <ClCompile Include="OBJloader.cpp" />
     <ClCompile Include="RedColourTracker.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
-    <ClCompile Include="synces_dequeue.cpp" />
+    <ClCompile Include="synced_dequeue.cpp" />
     <ClCompile Include="Texture.cpp" />
   </ItemGroup>
   <ItemGroup>

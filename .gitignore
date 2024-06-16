@@ -2,8 +2,8 @@
 /cmake-build-debug
 
 # Windows
-/include
-/lib
+#/include
+#/lib
 # User-specific files
 *.rsuser
 *.suo
