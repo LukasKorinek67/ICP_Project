@@ -3,12 +3,14 @@
 
 ---
 
+### Videoukázka
+- ukázka aplikace:
+https://youtu.be/oyxk2mHXgyQ
+- ukázka integrace RedColourTracker:
+https://youtu.be/_ugvUF3uG_I
 
+### Git
 
-
-### Instalace/Spuštění
-
-- ?? exe soubor ?
 - v rámci tohoto git repozitáře jsou zde 2 větve:
 
     - main - spustitelné na Windows
@@ -39,9 +41,9 @@
 
 - Vytvořili jsme jednoduchou aplikaci, kde se dá přepínat mezi jízdou s formulí a volným pohybem
 - Při jízdě je jiné chování kamery - zablokované pohyby myši
-- Celkem 7 modelů - formule, kužely, kolo, drony, semafor, kostka/ohraničení mapy, samotná plocha a ??(transparentní) všude jsou textury
+- Celkem 7 modelů - formule, kužely, kolo, drony, semafor, kostka/ohraničení mapy, samotná plocha a láhev, všude jsou textury
     - formule, drony a kolo se pohybují
-    - ?? je transparentní
+    - láhev je transparentní
 - Celkem 5 světel (1x DirLight, 3x PointLight, 1x SpotLight)
 - Kolize jak pro formuli, tak pro kameru při volném pohybu
 - Realtime 2D raster proccessing -> Red colour tracker, funkce popsaná výše
