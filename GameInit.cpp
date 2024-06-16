@@ -71,7 +71,7 @@ bool Game::init() {
 void Game::init_assets() {
 	//printCurrentPath();
 	//std::filesystem::path cp = std::filesystem::current_path().parent_path() / "resources";
-	std::filesystem::path cp = std::filesystem::current_path().parent_path() / "ICP_Project/resources";
+	//std::filesystem::path cp = std::filesystem::current_path() / "resources";
 	//std::filesystem::path cp = std::filesystem::current_path() / ".." / "resources";
 	std::filesystem::path vsPath = (cp / "shaders" / "obj.vert");
 	std::filesystem::path fsPath = (cp / "shaders" / "obj.frag");

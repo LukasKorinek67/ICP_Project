@@ -37,7 +37,7 @@ public:
     GLfloat MouseSensitivity = 0.25f;
 
     // Turning
-    GLfloat turning_power = 10.0f; //L - 4.0f;
+    GLfloat turning_power = 15.0f; //L - 4.0f;
 
     Camera(glm::vec3 position);
     glm::mat4 GetViewMatrix();
